@@ -1,0 +1,15 @@
+MySQL en local : 
+  CREATE DATABASE "nom db";
+  USE "nom db";
+  CREATE TABLE Programmeur (
+    Id INT,
+    Nom VARCHAR(45),
+    Prenom VARCHAR(45),
+    Adresse VARCHAR(100),
+    Pseudo VARCHAR(45),
+    Responsable VARCHAR(45),
+    Hobby VARCHAR(45),
+    Naissance INT,
+    Salaire DOUBLE,
+    Prime DOUBLE,
+    PRIMARY KEY (Id));

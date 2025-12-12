@@ -13,3 +13,8 @@ MySQL en local :
     Salaire DOUBLE,
     Prime DOUBLE,
     PRIMARY KEY (Id));
+
+  INSERT INTO Programmeur (Id, Nom, Prenom, Adresse, Pseudo, Responsable, Hobby, Naissance, Salaire, Prime)
+    VALUES 
+    -> (1, "Selvakumar", "Lakshya", "tanaland", "lakmo", "personne", "taxidermie", 15052003, 5432.98, 453.76)
+    -> ;

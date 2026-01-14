@@ -28,10 +28,10 @@ public class Start {
                 supprimerProgrammeurParId(scanner, listeProgrammeurs);
 
             } else if (choix == 4) {
-                System.out.println("Option 4 : ajouter un programmeur (à faire)");
+                ajouterProgrammeur(scanner, listeProgrammeurs);
 
             } else if (choix == 5) {
-                System.out.println("Option 5 : modifier le salaire (à faire)");
+                modifierSalaire(scanner, listeProgrammeurs);
 
             } else if (choix == 6) {
                 System.out.println("Option 6 : afficher la liste des projets (à faire)");
@@ -63,8 +63,9 @@ public class Start {
         System.out.println("8. Quitter le programme");
     }
 
+    // ----------------- EXCPEIOTNS -----------------
 
-    //l'excpetion pour empêcher la saisie de String
+    //l'excpetion pour empêcher la saisie de String dans le choix du menu
     private static int lireEntier(Scanner scanner, String message) {
         while (true) {
             System.out.print(message);
@@ -78,6 +79,24 @@ public class Start {
         }
     }
 
+    //L'expection pour permettre la saisie d'un double pour le salaire
+    private static double lireDouble(Scanner scanner, String message) {
+        while (true) {
+            System.out.print(message);
+            String saisie = scanner.nextLine();
+
+            try {
+                return Double.parseDouble(saisie);
+            } catch (NumberFormatException exception) {
+                System.out.println("Veuillez saisir un nombre (ex: 12.5).");
+            }
+        }
+    }
+
+    private static String lireTexte(Scanner scanner, String message) {
+        System.out.print(message);
+        return scanner.nextLine();
+    }
 
     // création des programmeurs (pas de bdd pour l'instant)
     private static List<Programmeur> creerProgrammeursDeTest() {
@@ -101,8 +120,9 @@ public class Start {
         return listeProgrammeurs;
     }
 
+     //------------------------------ OPTIONS --------------------------------
 
-    //option1 : afficher otus les programmeurs
+    //option1 : afficher tous les programmeurs
     private static void afficherTousLesProgrammeurs(List<Programmeur> listeProgrammeurs) {
         if (listeProgrammeurs.isEmpty()) {
             System.out.println("Aucun programmeur.");
@@ -151,6 +171,59 @@ public class Start {
         System.out.println("Trop de tentatives. Retour au menu.");
     }
 
+    //opt4 : ajouter programmeur
+    private static void ajouterProgrammeur(Scanner scanner, List<Programmeur> listeProgrammeurs) {
+
+        int nouvelId = genererNouvelId(listeProgrammeurs);
+        System.out.println("Id attribué : " + nouvelId);
+
+        String nom = lireTexte(scanner, "Nom : ");
+        String prenom = lireTexte(scanner, "Prénom : ");
+        String adresse = lireTexte(scanner, "Adresse : ");
+        String pseudo = lireTexte(scanner, "Pseudo : ");
+        String responsable = lireTexte(scanner, "Responsable : ");
+        String hobby = lireTexte(scanner, "Hobby : ");
+        int anneeNaissance = lireEntier(scanner, "Année de naissance : ");
+        double salaire = lireDouble(scanner, "Salaire : ");
+        double prime = lireDouble(scanner, "Prime : ");
+
+        Programmeur programmeurAAjouter = new Programmeur(
+                nouvelId, nom, prenom, adresse, pseudo, responsable,
+                hobby, anneeNaissance, salaire, prime
+        );
+
+        listeProgrammeurs.add(programmeurAAjouter);
+        System.out.println("AJOUT REUSSI !");
+    }
+
+
+    // opt 5 : modifier le salaire (3 tentatives)
+    private static void modifierSalaire(Scanner scanner, List<Programmeur> listeProgrammeurs) {
+
+        int tentativesMax = 3;
+        int tentatives = 0;
+
+        while (tentatives < tentativesMax) {
+
+            int idProgrammeur = lireEntier(scanner, "Id du programmeur : ");
+            Programmeur programmeurTrouve = chercherProgrammeurParId(listeProgrammeurs, idProgrammeur);
+
+            if (programmeurTrouve == null) {
+                tentatives++;
+                System.out.println("Id introuvable.");
+            } else {
+                double nouveauSalaire = lireDouble(scanner, "Nouveau salaire : ");
+                programmeurTrouve.setSalaire(nouveauSalaire);
+
+                System.out.println("Modification OK.");
+                System.out.println(programmeurTrouve.toString());
+                return;
+            }
+        }
+
+        System.out.println("Trop de tentatives. Retour au menu.");
+    }
+
 
     //parcours la liste et renvoie le programmeur trouvé
     private static Programmeur chercherProgrammeurParId(List<Programmeur> listeProgrammeurs, int idProgrammeur) {
@@ -160,6 +233,20 @@ public class Start {
             }
         }
         return null;
+    }
+
+
+    //regarde tous les programmeurs existants + trouve l’id le plus élevé + renvoie l’id suivant
+    private static int genererNouvelId(List<Programmeur> listeProgrammeurs) {
+        int idMax = 0;
+
+        for (Programmeur programmeur : listeProgrammeurs) {
+            if (programmeur.getId() > idMax) {
+                idMax = programmeur.getId();
+            }
+        }
+
+        return idMax + 1;
     }
 
 }

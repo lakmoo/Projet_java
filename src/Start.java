@@ -22,10 +22,10 @@ public class Start {
                 afficherTousLesProgrammeurs(listeProgrammeurs);
 
             } else if (choix == 2) {
-                System.out.println("Option 2 : afficher un programmeur (à faire)");
+                afficherUnProgrammeurParId(scanner, listeProgrammeurs);
 
             } else if (choix == 3) {
-                System.out.println("Option 3 : supprimer un programmeur (à faire)");
+                supprimerProgrammeurParId(scanner, listeProgrammeurs);
 
             } else if (choix == 4) {
                 System.out.println("Option 4 : ajouter un programmeur (à faire)");
@@ -64,7 +64,7 @@ public class Start {
     }
 
 
-    //l'excpetion
+    //l'excpetion pour empêcher la saisie de String
     private static int lireEntier(Scanner scanner, String message) {
         while (true) {
             System.out.print(message);
@@ -102,7 +102,7 @@ public class Start {
     }
 
 
-    //option1
+    //option1 : afficher otus les programmeurs
     private static void afficherTousLesProgrammeurs(List<Programmeur> listeProgrammeurs) {
         if (listeProgrammeurs.isEmpty()) {
             System.out.println("Aucun programmeur.");
@@ -113,4 +113,53 @@ public class Start {
             System.out.println(programmeur.toString());
         }
     }
+
+    //opt 2 : afficher les programmeurs par id
+    private static void afficherUnProgrammeurParId(Scanner scanner, List<Programmeur> listeProgrammeurs) {
+        int idProgrammeur = lireEntier(scanner, "Id du programmeur : ");
+
+        Programmeur programmeurTrouve = chercherProgrammeurParId(listeProgrammeurs, idProgrammeur);
+
+        if (programmeurTrouve == null) {
+            System.out.println("Id introuvable.");
+        } else {
+            System.out.println(programmeurTrouve.toString());
+        }
+    }
+
+    //opt3 : supp programmeur par id (3 tentatives)
+    private static void supprimerProgrammeurParId(Scanner scanner, List<Programmeur> listeProgrammeurs) {
+
+        int tentativesMax = 3;
+        int tentatives = 0;
+
+        while (tentatives < tentativesMax) {
+
+            int idProgrammeur = lireEntier(scanner, "Id du programmeur à supprimer : ");
+            Programmeur programmeurTrouve = chercherProgrammeurParId(listeProgrammeurs, idProgrammeur);
+
+            if (programmeurTrouve == null) {
+                tentatives++;
+                System.out.println("Suppression KO. Id introuvable.");
+            } else {
+                listeProgrammeurs.remove(programmeurTrouve);
+                System.out.println("SUPPRESSION REUSSIE !!!");
+                return;
+            }
+        }
+
+        System.out.println("Trop de tentatives. Retour au menu.");
+    }
+
+
+    //parcours la liste et renvoie le programmeur trouvé
+    private static Programmeur chercherProgrammeurParId(List<Programmeur> listeProgrammeurs, int idProgrammeur) {
+        for (Programmeur programmeur : listeProgrammeurs) {
+            if (programmeur.getId() == idProgrammeur) {
+                return programmeur;
+            }
+        }
+        return null;
+    }
+
 }

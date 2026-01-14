@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Start {
@@ -7,6 +9,9 @@ public class Start {
         Scanner scanner = new Scanner(System.in);
         boolean continuerProgramme = true;
 
+        //Je crée une list de pgrameur qui appelle la methode creerProgrammeursDeTest()
+        List<Programmeur> listeProgrammeurs = creerProgrammeursDeTest();
+
         while (continuerProgramme) {
 
             afficherMenu();
@@ -14,7 +19,7 @@ public class Start {
             int choix = lireEntier(scanner, "Votre choix : ");
 
             if (choix == 1) {
-                System.out.println("Option 1 : afficher tous les programmeurs (à faire)");
+                afficherTousLesProgrammeurs(listeProgrammeurs);
 
             } else if (choix == 2) {
                 System.out.println("Option 2 : afficher un programmeur (à faire)");
@@ -59,6 +64,7 @@ public class Start {
     }
 
 
+    //l'excpetion
     private static int lireEntier(Scanner scanner, String message) {
         while (true) {
             System.out.print(message);
@@ -69,6 +75,42 @@ public class Start {
             } catch (NumberFormatException exception) {
                 System.out.println("Veuillez saisir un nombre entier.");
             }
+        }
+    }
+
+
+    // création des programmeurs (pas de bdd pour l'instant)
+    private static List<Programmeur> creerProgrammeursDeTest() {
+        List<Programmeur> listeProgrammeurs = new ArrayList<>();
+
+        listeProgrammeurs.add(new Programmeur(
+                1, "Torvalds", "Linus", "2 avenue Linux Git", "linuxroot",
+                "Didier Achvar", "salsa", 1969, 2170.0, 50.0
+        ));
+
+        listeProgrammeurs.add(new Programmeur(
+                2, "Stroustrup", "Bjarne", "294 rue C++", "c++1",
+                "Karim Lahlou", "Voyages", 1950, 2466.0, 80.0
+        ));
+
+        listeProgrammeurs.add(new Programmeur(
+                3, "Gosling", "James", "3 bvd JVM", "javapapa",
+                "Jacques Augustin", "Peinture", 1955, 1987.0, 10.0
+        ));
+
+        return listeProgrammeurs;
+    }
+
+
+    //option1
+    private static void afficherTousLesProgrammeurs(List<Programmeur> listeProgrammeurs) {
+        if (listeProgrammeurs.isEmpty()) {
+            System.out.println("Aucun programmeur.");
+            return;
+        }
+
+        for (Programmeur programmeur : listeProgrammeurs) {
+            System.out.println(programmeur.toString());
         }
     }
 }

@@ -13,44 +13,43 @@ public class Start {
         //Je crée une list de pgrameur qui appelle la methode creerProgrammeursDeTest()
         List<Programmeur> listeProgrammeurs = creerProgrammeursDeTest();
 
+
         while (continuerProgramme) {
 
             afficherMenu();
-
             int choix = lireEntier(scanner, "Votre choix : ");
 
-            if (choix == 1) {
-                afficherTousLesProgrammeurs(listeProgrammeurs);
+            switch (choix) {
 
-            } else if (choix == 2) {
-                afficherUnProgrammeurParId(scanner, listeProgrammeurs);
+                case 1 -> afficherTousLesProgrammeurs(listeProgrammeurs);
 
-            } else if (choix == 3) {
-                supprimerProgrammeurParId(scanner, listeProgrammeurs);
+                case 2 -> afficherUnProgrammeurParId(scanner, listeProgrammeurs);
 
-            } else if (choix == 4) {
-                ajouterProgrammeur(scanner, listeProgrammeurs, listeProjets);
+                case 3 -> supprimerProgrammeurParId(scanner, listeProgrammeurs);
 
-            } else if (choix == 5) {
-                modifierSalaire(scanner, listeProgrammeurs);
+                case 4 -> ajouterProgrammeur(scanner, listeProgrammeurs, listeProjets);
 
-            } else if (choix == 6) {
-                afficherListeDesProjets(listeProjets);
+                case 5 -> modifierSalaire(scanner, listeProgrammeurs);
 
-            } else if (choix == 7) {
-                afficherProgrammeursDuMemeProjet(scanner, listeProgrammeurs, listeProjets);
+                case 6 -> afficherListeDesProjets(listeProjets);
 
-            } else if (choix == 8) {
-                System.out.println("Fermeture du programme.");
-                continuerProgramme = false;
+                case 7 -> afficherProgrammeursDuMemeProjet(scanner, listeProgrammeurs, listeProjets);
 
-            } else {
-                System.out.println("Choix invalide.");
+                case 8 -> {
+                    System.out.println("Fermeture du programme.");
+                    continuerProgramme = false;
+                }
+
+                default -> System.out.println("Choix invalide.");
             }
 
             System.out.println();
         }
+
     }
+
+
+
 
     private static void afficherMenu() {
         System.out.println("********* MENU *************");

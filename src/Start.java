@@ -10,7 +10,7 @@ public class Start {
         boolean continuerProgramme = true;
 
         List<Projet> listeProjets = creerProjetsDeTest();
-        //Je crée une list de pgrameur qui appelle la methode creerProgrammeursDeTest()
+        // Je crée une list de pgrameur qui appelle la methode creerProgrammeursDeTest()
         List<Programmeur> listeProgrammeurs = creerProgrammeursDeTest();
 
         while (continuerProgramme) {
@@ -66,7 +66,7 @@ public class Start {
 
     // ----------------- EXCPEIOTNS -----------------
 
-    //l'excpetion pour empêcher la saisie de String dans le choix du menu
+    // l'excpetion pour empêcher la saisie de String dans le choix du menu
     private static int lireEntier(Scanner scanner, String message) {
         while (true) {
             System.out.print(message);
@@ -80,7 +80,7 @@ public class Start {
         }
     }
 
-    //L'expection pour permettre la saisie d'un double pour le salaire
+    // L'expection pour permettre la saisie d'un double pour le salaire
     private static double lireDouble(Scanner scanner, String message) {
         while (true) {
             System.out.print(message);
@@ -100,29 +100,25 @@ public class Start {
     }
 
     // création des programmeurs (pas de bdd pour l'instant)
-    private static List<Programmeur> creerProgrammeursDeTest() {
+    public static List<Programmeur> creerProgrammeursDeTest() {
         List<Programmeur> listeProgrammeurs = new ArrayList<>();
 
         listeProgrammeurs.add(new Programmeur(
                 1, "Torvalds", "Linus", "2 avenue Linux Git", "linuxroot",
-                "Didier Achvar", "salsa", 1969, 2170.0, 50.0, "OutilInterne"
-        ));
+                "Didier Achvar", "salsa", 1969, 2170.0, 50.0, "OutilInterne"));
 
         listeProgrammeurs.add(new Programmeur(
                 2, "Stroustrup", "Bjarne", "294 rue C++", "c++1",
-                "Karim Lahlou", "Voyages", 1950, 2466.0, 80.0, "SiteWeb"
-        ));
+                "Karim Lahlou", "Voyages", 1950, 2466.0, 80.0, "SiteWeb"));
 
         listeProgrammeurs.add(new Programmeur(
                 3, "Gosling", "James", "3 bvd JVM", "javapapa",
-                "Jacques Augustin", "Peinture", 1955, 1987.0, 10.0, "SiteWeb"
-        ));
+                "Jacques Augustin", "Peinture", 1955, 1987.0, 10.0, "SiteWeb"));
 
         return listeProgrammeurs;
     }
 
-
-    //Création des projets
+    // Création des projets
     private static List<Projet> creerProjetsDeTest() {
         List<Projet> listeProjets = new ArrayList<>();
 
@@ -133,9 +129,9 @@ public class Start {
         return listeProjets;
     }
 
-     //------------------------------ OPTIONS --------------------------------
+    // ------------------------------ OPTIONS --------------------------------
 
-    //option1 : afficher tous les programmeurs
+    // option1 : afficher tous les programmeurs
     private static void afficherTousLesProgrammeurs(List<Programmeur> listeProgrammeurs) {
         if (listeProgrammeurs.isEmpty()) {
             System.out.println("Aucun programmeur.");
@@ -147,7 +143,7 @@ public class Start {
         }
     }
 
-    //opt 2 : afficher les programmeurs par id
+    // opt 2 : afficher les programmeurs par id
     private static void afficherUnProgrammeurParId(Scanner scanner, List<Programmeur> listeProgrammeurs) {
         int idProgrammeur = lireEntier(scanner, "Id du programmeur : ");
 
@@ -160,7 +156,7 @@ public class Start {
         }
     }
 
-    //opt3 : supp programmeur par id (3 tentatives)
+    // opt3 : supp programmeur par id (3 tentatives)
     private static void supprimerProgrammeurParId(Scanner scanner, List<Programmeur> listeProgrammeurs) {
 
         int tentativesMax = 3;
@@ -184,8 +180,9 @@ public class Start {
         System.out.println("Trop de tentatives. Retour au menu.");
     }
 
-    //opt4 : ajouter programmeur
-    private static void ajouterProgrammeur(Scanner scanner, List<Programmeur> listeProgrammeurs, List<Projet> listeProjets) {
+    // opt4 : ajouter programmeur
+    private static void ajouterProgrammeur(Scanner scanner, List<Programmeur> listeProgrammeurs,
+            List<Projet> listeProjets) {
 
         int nouvelId = genererNouvelId(listeProgrammeurs);
         System.out.println("Id attribué : " + nouvelId);
@@ -210,13 +207,11 @@ public class Start {
 
         Programmeur programmeurAAjouter = new Programmeur(
                 nouvelId, nom, prenom, adresse, pseudo, responsable,
-                hobby, anneeNaissance, salaire, prime, nomProjet
-        );
+                hobby, anneeNaissance, salaire, prime, nomProjet);
 
         listeProgrammeurs.add(programmeurAAjouter);
         System.out.println("AJOUT REUSSI !");
     }
-
 
     // opt 5 : modifier le salaire (3 tentatives)
     private static void modifierSalaire(Scanner scanner, List<Programmeur> listeProgrammeurs) {
@@ -245,7 +240,7 @@ public class Start {
         System.out.println("Trop de tentatives. Retour au menu.");
     }
 
-    //opt6 : Afficher les projets
+    // opt6 : Afficher les projets
 
     private static void afficherListeDesProjets(List<Projet> listeProjets) {
         if (listeProjets.isEmpty()) {
@@ -258,10 +253,10 @@ public class Start {
         }
     }
 
-    //opt7
+    // opt7
     private static void afficherProgrammeursDuMemeProjet(Scanner scanner,
-                                                         List<Programmeur> listeProgrammeurs,
-                                                         List<Projet> listeProjets) {
+            List<Programmeur> listeProgrammeurs,
+            List<Projet> listeProjets) {
 
         afficherListeDesProjets(listeProjets);
 
@@ -296,9 +291,7 @@ public class Start {
         System.out.println("Trop de tentatives. Retour au menu.");
     }
 
-
-
-    //parcours la liste et renvoie le programmeur trouvé
+    // parcours la liste et renvoie le programmeur trouvé
     private static Programmeur chercherProgrammeurParId(List<Programmeur> listeProgrammeurs, int idProgrammeur) {
         for (Programmeur programmeur : listeProgrammeurs) {
             if (programmeur.getId() == idProgrammeur) {
@@ -308,8 +301,8 @@ public class Start {
         return null;
     }
 
-
-    //regarde tous les programmeurs existants + trouve l’id le plus élevé + renvoie l’id suivant
+    // regarde tous les programmeurs existants + trouve l’id le plus élevé + renvoie
+    // l’id suivant
     private static int genererNouvelId(List<Programmeur> listeProgrammeurs) {
         int idMax = 0;
 

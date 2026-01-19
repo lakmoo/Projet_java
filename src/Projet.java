@@ -1,3 +1,12 @@
+package src;
+/**
+ * Dont les attributs sont identiques aux colonnes de la table Projet.  
+ * 
+ * @author Huan Jie YEN
+ * @author Lakshya SELVAKUMAR
+ * @author Kimberley NDOUGA
+ */
+
 public class Projet {
 
     private int id;

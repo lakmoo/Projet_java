@@ -1,3 +1,5 @@
+package src;
+
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
@@ -8,12 +10,14 @@ import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-//import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleHttpServer {
     public static void main(String[] args) {
         try {
+            // lien base de données
+            String databaseURL = "jdbc:sqlite:programmeurs.db";
+
             // create an HttpServer instance
             HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
 
@@ -28,15 +32,13 @@ public class SimpleHttpServer {
             server.start();
 
             System.out.println("the server is running on port 8000");
+            System.out.println("Database: " + databaseURL);
         } catch (IOException e) {
             // error message if connection not successful
             System.out.println("There's an error starting the server: " + e.getMessage());
         }
     }
 
-    /**
-     * something
-     */
     static class MyHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
@@ -101,30 +103,31 @@ public class SimpleHttpServer {
         }
     }
 
-    /**
-     * something else
-     */
     static class ProgrammeurAPIHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("GET".equals(exchange.getRequestMethod())) {
-                // sample programmers
-                List<Programmeur> programmers = Start.creerProgrammeursDeTest();
+                // Get employees from database
+                ActionsBDDImpl test = new ActionsBDDImpl();
+                List<Programmeur> listeProgrammeurs = test.getProgrammeurs();
 
-                // converting to JSON
-                String jsonResponse = Programmeur.programmeurToJSON(programmers);
+                // Save to JSON file
+                Programmeur.creerFichierJSON(listeProgrammeurs, "programmeurs.json");
 
-                // set headers
+                // Read the JSON file
+                byte[] jsonBytes = Files.readAllBytes(Paths.get("programmeurs.json"));
+
+                System.out.println("Sending employee data from JSON file");
+
+                // Set headers
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
-                exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*"); // Allow CORS
+                exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
 
-                // send response
-                exchange.sendResponseHeaders(200, jsonResponse.getBytes().length);
+                // Send response
+                exchange.sendResponseHeaders(200, jsonBytes.length);
                 OutputStream os = exchange.getResponseBody();
-                os.write(jsonResponse.getBytes());
+                os.write(jsonBytes);
                 os.close();
-
-                System.out.println("Sent programmeurs data: " + jsonResponse);
             }
         }
     }

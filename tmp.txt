@@ -1,0 +1,9 @@
+_ commenter : Projet.java / Programmeur.java / Database.java / Start.java
+
+- faire le README 
+
+- COMPILATION : 
+    - javac -cp "lib/sqlite-jdbc-3.51.1.0.jar" -d out/production/Projet src/*.java
+    - java -cp "out/production/Projet:lib/sqlite-jdbc-3.51.1.0.jar" src.Start
+
+- Comment je lis l'interface et le Start ??

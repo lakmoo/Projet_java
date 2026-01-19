@@ -1,0 +1,30 @@
+#navHeader {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#navHeader a {
+    font-size: 2rem;
+    text-decoration: none;
+    color: black;
+}
+
+#navHeader a:hover {
+    text-decoration: underline;
+}
+
+section {
+    margin-top: 3rem;
+}
+
+.widget {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+img {
+    width: 10rem;
+    height: 10rem;
+}

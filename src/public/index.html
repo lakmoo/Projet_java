@@ -12,20 +12,46 @@
 
 <body>
     <dialog id="dialog-box">
-        <h3>Enter user information</h3>
-        <form>
-            <span onclick="document.getElementById('dialog-box').style.display='none'" class="close"
-                title="Close Modal">&times;</span>
+        <h3>Entrer les informations des programmeurs</h3>
+        <form id="newProgrammeurForm">
+            <span onclick="closeForm()" class="close" title="Close Modal">&times;</span>
+            <label for="nom">Nom</label>
+            <input type="text" placeholder="entrer le nom" name="nom" id="nom" />
+
+            <label for="prenom">Prenom</label>
+            <input type="text" placeholder="entrer le prénom" name="prenom" id="prenom" />
+
+            <label for="pseudo">Pseudo</label>
+            <input type="text" placeholder="entrer le pseudo" name="pseudo" id="pseudo" />
+
+            <label for="anNaissance">Année de naissance</label>
+            <input type="number" placeholder="entrer la date de naissance" name="anNaissance" id="anNaissance" />
+
+            <label for="adresse">Adresse</label>
+            <input type="text" placeholder="entrer l'adresse" name="adresse" id="adresse" />
+
+            <label for="hobby">Hobby</label>
+            <input type="text" placeholder="entrer le hobby" name="hobby" id="hobby" />
+
+            <label for="salaire">Salaire mensuel</label>
+            <input type="number" placeholder="entrer le salaire mensuel" name="salaire" id="salaire" />
+
+            <label for="prime">Prime</label>
+            <input type="number" placeholder="entrer la prime" name="prime" id="prime" />
+
+            <button type="submit" onclick="addProgrammeur()">Ajouter employé</button>
         </form>
     </dialog>
+
     <nav id="navHeader">
         <a href="index.html">Employés</a>
         <a href="projets.html">Projets</a>
     </nav>
+
     <section>
         <nav id="navSearch">
             <input type="text" placeholder="Rechercher un employé" id="searchBar" onkeyup="searchProgrammeur()" />
-            <button type="button" onclick="addProgrammeur()">Ajouter un employé</button>
+            <button type="button" onclick="openForm()">Ajouter un employé</button>
         </nav>
 
         <div id="programmeurContainer"></div>

@@ -4,13 +4,16 @@ import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 
 public class SimpleHttpServer {
     public static void main(String[] args) {
@@ -128,7 +131,9 @@ public class SimpleHttpServer {
                 OutputStream os = exchange.getResponseBody();
                 os.write(jsonBytes);
                 os.close();
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
+            }
+
+            else if ("DELETE".equals(exchange.getRequestMethod())) {
 
                 String path = exchange.getRequestURI().getPath();
                 String[] pathParts = path.split("/");
@@ -139,11 +144,11 @@ public class SimpleHttpServer {
 
                         System.out.println("Attempting to delete employee with ID: " + programmeurId);
 
-                        // Delete from database
+                        // delete from database
                         ActionsBDDImpl test = new ActionsBDDImpl();
                         boolean success = test.deleteProgrammeur(programmeurId);
 
-                        // Prepare response
+                        // prepare response
                         String jsonResponse;
                         int statusCode;
 
@@ -155,7 +160,7 @@ public class SimpleHttpServer {
                             statusCode = 404;
                         }
 
-                        // Send response
+                        // send response headers
                         exchange.getResponseHeaders().set("Content-Type", "application/json");
                         exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
                         exchange.sendResponseHeaders(statusCode, jsonResponse.getBytes().length);
@@ -165,7 +170,7 @@ public class SimpleHttpServer {
                         os.close();
 
                     } catch (NumberFormatException e) {
-                        // Invalid ID format
+                        // shows error if the format is invalid
                         String errorResponse = "{\"success\":false,\"message\":\"Invalid employee ID\"}";
                         exchange.sendResponseHeaders(400, errorResponse.getBytes().length);
                         OutputStream os = exchange.getResponseBody();
@@ -181,6 +186,97 @@ public class SimpleHttpServer {
                     os.close();
                 }
             }
+
+            else if ("POST".equals(exchange.getRequestMethod())) {
+
+                // Read the request body (JSON data from JavaScript)
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(exchange.getRequestBody()));
+                StringBuilder requestBody = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    requestBody.append(line);
+                }
+
+                String jsonData = requestBody.toString();
+                System.out.println("Received JSON: " + jsonData);
+
+                try {
+                    // Parse the JSON manually (simple parsing)
+                    String nom = extractJSONValue(jsonData, "nom");
+                    String prenom = extractJSONValue(jsonData, "prenom");
+                    String adresse = extractJSONValue(jsonData, "adresse");
+                    String pseudo = extractJSONValue(jsonData, "pseudo");
+                    String responsable = extractJSONValue(jsonData, "responsable");
+                    String hobby = extractJSONValue(jsonData, "hobby");
+                    int anNaissance = Integer.parseInt(extractJSONValue(jsonData, "anNaissance"));
+                    double salaire = Double.parseDouble(extractJSONValue(jsonData, "salaire"));
+                    double prime = Double.parseDouble(extractJSONValue(jsonData, "prime"));
+
+                    System.out.println("Creating employee: " + prenom + " " + nom + ", Salaire: " + salaire);
+
+                    // Create employee in database
+                    ActionsBDDImpl test = new ActionsBDDImpl();
+                    int newId = test.createProgrammeur(nom, prenom, adresse, pseudo, responsable,
+                            hobby, anNaissance, salaire, prime);
+
+                    // Prepare response
+                    String jsonResponse;
+                    int statusCode;
+
+                    if (newId > 0) {
+                        jsonResponse = String.format(Locale.US,
+                                "{\"success\":true,\"message\":\"Employee created\",\"id\":%d}",
+                                newId);
+                        statusCode = 201; // 201 Created
+                    } else {
+                        jsonResponse = "{\"success\":false,\"message\":\"Failed to create employee\"}";
+                        statusCode = 500; // 500 Internal Server Error
+                    }
+
+                    // Send response
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
+                    exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+                    exchange.sendResponseHeaders(statusCode, jsonResponse.getBytes().length);
+
+                    OutputStream os = exchange.getResponseBody();
+                    os.write(jsonResponse.getBytes());
+                    os.close();
+
+                } catch (Exception e) {
+                    System.err.println("Error processing request: " + e.getMessage());
+                    e.printStackTrace();
+
+                    String errorResponse = "{\"success\":false,\"message\":\"Invalid data format\"}";
+                    exchange.sendResponseHeaders(400, errorResponse.getBytes().length);
+                    OutputStream os = exchange.getResponseBody();
+                    os.write(errorResponse.getBytes());
+                    os.close();
+                }
+            }
+        }
+
+        private String extractJSONValue(String json, String key) {
+            String searchKey = "\"" + key + "\"";
+            int keyIndex = json.indexOf(searchKey);
+            if (keyIndex == -1)
+                return "";
+
+            int colonIndex = json.indexOf(":", keyIndex);
+            int startIndex = json.indexOf("\"", colonIndex) + 1;
+
+            // Check if value is a number (no quotes)
+            if (json.charAt(colonIndex + 1) != '"') {
+                int endIndex = json.indexOf(",", colonIndex);
+                if (endIndex == -1) {
+                    endIndex = json.indexOf("}", colonIndex);
+                }
+                return json.substring(colonIndex + 1, endIndex).trim();
+            }
+
+            // Value is a string (has quotes)
+            int endIndex = json.indexOf("\"", startIndex);
+            return json.substring(startIndex, endIndex);
         }
     }
 }

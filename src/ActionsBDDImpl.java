@@ -472,6 +472,49 @@ public class ActionsBDDImpl implements ActionsBDD {
         return listeProgrammeurs;
     }
 
+    public int createProgrammeur(String nom, String prenom, String adresse, String pseudo, String responsable,
+            String hobby, int anNaissance, double salaire, double prime) {
+
+        String sql = "INSERT INTO Programmeurs (nom, prenom, adresse, pseudo, responsable, hobby, anNaissance, salaire, prime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = Database.getConnexion();
+                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            try (PreparedStatement psProg = conn.prepareStatement(sql)) {
+                psProg.setString(1, nom);
+                psProg.setString(2, prenom);
+                psProg.setString(3, adresse);
+                psProg.setString(4, pseudo);
+                psProg.setString(5, responsable);
+                psProg.setString(6, hobby);
+                psProg.setInt(7, anNaissance);
+                psProg.setDouble(8, salaire);
+                psProg.setDouble(9, prime);
+
+                psProg.executeUpdate();
+                System.out.println("Programmeur ajouté avec succès !");
+            }
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // generer le nouveau ID
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    int newId = rs.getInt(10);
+                    System.out.println("Programmeur ajouté avec succès avec l'ID: " + newId);
+                    return newId;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Une erreur est survenue lors de la création du programmeur: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return -1; // retourne -1 si la ctéation n'a pas aboutit
+    }
+
     public boolean deleteProgrammeur(int id) {
         String sql = "DELETE FROM programmeurs WHERE id = ?";
 

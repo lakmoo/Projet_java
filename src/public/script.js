@@ -103,13 +103,77 @@ function searchProgrammeur() {
     }
 }
 
-function addProgrammeur() {
-    const dialog = document.getElementById('dialog-box');
-    dialog.showModal();
+function openForm() {
+    const dialog = document.getElementById('dialog-box').style.display = 'block';
+}
 
-    window.onclick = function (event) {
-        if (event.target == dialog) {
-            dialog.style.display = "none";
+function closeForm() {
+    // supprime les champs du formulaire
+    const form = document.getElementById('newProgrammeurForm');
+    form.reset();
+
+    // ferme le formulaire
+    const dialog = document.getElementById('dialog-box');
+    dialog.style.display = 'none';
+}
+
+async function addProgrammeur() {
+    const form = document.getElementById('newProgrammeurForm');
+    const dialog = document.getElementById('dialog-box');
+
+    // récupération des données du formulaire
+    const nom = document.getElementById('nom').value;
+    const prenom = document.getElementById('prenom').value;
+    const pseudo = document.getElementById('pseudo').value;
+    const anNaissance = document.getElementById('anNaissance').value;
+    const adresse = document.getElementById('adresse').value;
+    const hobby = document.getElementById('hobby').value;
+    const salaire = parseFloat(document.getElementById('salaire').value);
+    const prime = parseFloat(document.getElementById('prime').value);
+
+    // verification des données
+    if (!nom || !prenom || !pseudo || !anNaissance || !adresse || !hobby || !salaire || !prime) {
+        alert("Veuillez remplir tous les champs du formulaire");
+        return;
+    }
+
+    // creation d'un objet programmeur
+    const newProgrammeur = {
+        id: 5, // à corriger
+        nom: nom,
+        prenom: prenom,
+        pseudo: pseudo,
+        anNaissance: anNaissance,
+        adresse: adresse,
+        hobby: hobby,
+        salaire: salaire,
+        prime: prime
+    };
+
+    try {
+        console.log("Crée le programmeur :", newProgrammeur);
+
+
+        const response = await fetch('http://localhost:8000/api/employees/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newProgrammeur) // conversion en JSON
+        });
+
+        // Parse the response
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Programmeur créé avec succès!");
+            // rafraichit la liste des employés
+            location.reload();
+        } else {
+            alert("Erreur: " + result.message);
         }
+
+    } catch (error) {
+        alert("Erreur lors de la création du programmeur");
     }
 }

@@ -1,11 +1,12 @@
 package src;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 /**
- * Classe Programmeur identique à la table.  
+ * Classe Programmeur identique à la table.
  * 
  * @author Huan Jie YEN
  * @author Lakshya SELVAKUMAR
@@ -43,8 +44,8 @@ public class Programmeur {
     }
 
     public Programmeur(int id, String nom, String prenom, String adresse, String pseudo,
-                       String responsable, String hobby, int anneeNaissance,
-                       double salaire, double prime, int idProjet) {
+            String responsable, String hobby, int anneeNaissance,
+            double salaire, double prime, int idProjet) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -88,18 +89,17 @@ public class Programmeur {
 
     @Override
     public String toString() {
-        return
-                "Id           : " + id + "\n" +
-                        "Nom          : " + nom + "\n" +
-                        "Prénom       : " + prenom + "\n" +
-                        "Adresse      : " + adresse + "\n" +
-                        "Pseudo       : " + pseudo + "\n" +
-                        "Responsable  : " + responsable + "\n" +
-                        "Hobby        : " + hobby + "\n" +
-                        "Naissance    : " + anneeNaissance + "\n" +
-                        "Salaire      : " + salaire + "\n" +
-                        "Prime        : " + prime + "\n" +
-                        "----------------------------------------";
+        return "Id           : " + id + "\n" +
+                "Nom          : " + nom + "\n" +
+                "Prénom       : " + prenom + "\n" +
+                "Adresse      : " + adresse + "\n" +
+                "Pseudo       : " + pseudo + "\n" +
+                "Responsable  : " + responsable + "\n" +
+                "Hobby        : " + hobby + "\n" +
+                "Naissance    : " + anneeNaissance + "\n" +
+                "Salaire      : " + salaire + "\n" +
+                "Prime        : " + prime + "\n" +
+                "----------------------------------------";
     }
 
     public static Programmeur chercherProgrammeurParId(List<Programmeur> listeProgrammeurs, int idProgrammeur) {
@@ -124,13 +124,20 @@ public class Programmeur {
 
         // ajoute chaque Programmeur dans la chaîne de caractères(json)
         for (int i = 0; i < listeProgrammeurs.size(); i++) {
-            Programmeur emp = listeProgrammeurs.get(i);
+            Programmeur programmeur = listeProgrammeurs.get(i);
 
             json.append("{");
-            json.append("\"id\":").append(emp.getId()).append(",");
-            json.append("\"nom\":\"").append(escapeJSON(emp.getNom())).append("\",");
-            json.append("\"prenom\":\"").append(escapeJSON(emp.getPrenom())).append("\",");
-            json.append("\"salaire\":").append(String.format(Locale.US, "%.2f", emp.getSalaire()));
+            json.append("\"id\":").append(programmeur.id).append(",");
+            json.append("\"nom\":\"").append(escapeJSON(programmeur.nom)).append("\",");
+            json.append("\"prenom\":\"").append(escapeJSON(programmeur.prenom)).append("\",");
+            json.append("\"adresse\":\"").append(escapeJSON(programmeur.adresse)).append("\",");
+            json.append("\"pseudo\":\"").append(escapeJSON(programmeur.pseudo)).append("\",");
+            json.append("\"responsable\":\"").append(escapeJSON(programmeur.responsable)).append("\",");
+            json.append("\"hobby\":\"").append(escapeJSON(programmeur.hobby)).append("\",");
+            json.append("\"anneeNaissance\":\"").append(escapeJSON(String.format("%d", programmeur.anneeNaissance)))
+                    .append("\",");
+            json.append("\"salaire\":").append(String.format(Locale.US, "%.2f", programmeur.salaire)).append(",");
+            json.append("\"prime\":").append(String.format(Locale.US, "%.2f", programmeur.prime));
             json.append("}");
 
             if (i < listeProgrammeurs.size() - 1) {

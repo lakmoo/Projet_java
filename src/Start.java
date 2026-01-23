@@ -1,5 +1,7 @@
 package src;
 
+import java.util.ArrayList;
+
 /**
  * Contient le point d'entrée. 
  * 
@@ -11,8 +13,12 @@ package src;
  */
 
 public class Start {
+    /**
+     * Point d'entrée du programme.
+     * @param args             Les arguments de la ligne de commande
+     */
     public static void main(String[] args) {
         Database.init();
-        new Menu().choixMenu();
+        new Menu().choixMenu(new ArrayList<Integer>());
     }
 }

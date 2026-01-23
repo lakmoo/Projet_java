@@ -26,7 +26,6 @@ async function loadProgrammeurs() {
     }
 }
 
-
 function displayProgrammeurs(programmers) {
     // where the programmers are going to be displayed
     const container = document.getElementById('programmeurContainer');
@@ -40,12 +39,141 @@ function displayProgrammeurs(programmers) {
         // display the data retrieved from the database
         programmerDiv.innerHTML = `
             <img src="default-pfp.jpg"/>
-            <h3>${programmer.prenom} ${programmer.nom} <span>#${programmer.id}</span></h3>
+            <h3>${programmer.prenom} ${programmer.nom} #<span>${programmer.id}</span></h3>
+            <p>Pseudo : ${programmer.pseudo}<p/>
+            <p>Année de naissance : ${programmer.anneeNaissance}<p/>
+            <p>Adresse : ${programmer.adresse}</p>
+            <p>Hobby : ${programmer.hobby}<p/>
+            <p>Responsable : ${programmer.responsable}</p>
             <p>Salaire : ${programmer.salaire.toLocaleString()}€/mois</p>
-            <button type="button">Supprimer</button>
+            <p>Prime : ${programmer.prime}€<p>
+            <button type="button" onclick=deleteProgrammeur(${programmer.id})>Supprimer</button>
         `;
 
         // adding the new widget to the container
         container.appendChild(programmerDiv);
     });
+}
+
+async function deleteProgrammeur(id) {
+    // demander confirmation à l'utilisateur
+    if (confirm(`Voulez-vous supprimer le programmeur d'ID ${id}?`)) {
+        // envoie une requête à l'API
+        const response = await fetch(`http://localhost:8000/api/employees/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        // rafraîchit la page si la requête a bien été effectuée
+        if (result.success) {
+            alert("Le programmeur a bien été supprimé ! :D");
+            location.reload()
+        }
+        else {
+            alert("Il y a eu une erreur dans la suppression...");
+        }
+    }
+}
+
+function searchProgrammeur() {
+    // recupère l'input en barre de recherche
+    let input = document.getElementById('searchBar');
+    let filter = input.value;
+    let txtValue;
+
+    // liste des programmeurs
+    let programmeurList = document.getElementsByClassName('widget');
+    console.log(programmeurList);
+
+    for (let i = 0; i < programmeurList.length; i++) {
+        // cherche l'ID du programmeur
+        id = programmeurList[i].getElementsByTagName("span")[0];
+        txtValue = id.textContent || id.innerText;
+
+        // affiche le programmeur avec l'ID correspondant, cache les autres
+        if (txtValue.indexOf(filter) > -1) {
+            programmeurList[i].style.display = "";
+        } else {
+            programmeurList[i].style.display = "none";
+        }
+    }
+}
+
+function openForm() {
+    const dialog = document.getElementById('dialog-box').style.display = 'block';
+}
+
+function closeForm() {
+    // supprime les champs du formulaire
+    const form = document.getElementById('newProgrammeurForm');
+    form.reset();
+
+    // ferme le formulaire
+    const dialog = document.getElementById('dialog-box');
+    dialog.style.display = 'none';
+}
+
+async function addProgrammeur() {
+    const form = document.getElementById('newProgrammeurForm');
+    const dialog = document.getElementById('dialog-box');
+
+    // récupération des données du formulaire
+    const nom = document.getElementById('nom').value;
+    const prenom = document.getElementById('prenom').value;
+    const pseudo = document.getElementById('pseudo').value;
+    const anNaissance = document.getElementById('anNaissance').value;
+    const adresse = document.getElementById('adresse').value;
+    const hobby = document.getElementById('hobby').value;
+    const salaire = parseFloat(document.getElementById('salaire').value);
+    const prime = parseFloat(document.getElementById('prime').value);
+
+    // verification des données
+    if (!nom || !prenom || !pseudo || !anNaissance || !adresse || !hobby || !salaire || !prime) {
+        alert("Veuillez remplir tous les champs du formulaire");
+        return;
+    }
+
+    // creation d'un objet programmeur
+    const newProgrammeur = {
+        id: 5, // à corriger
+        nom: nom,
+        prenom: prenom,
+        pseudo: pseudo,
+        anNaissance: anNaissance,
+        adresse: adresse,
+        hobby: hobby,
+        salaire: salaire,
+        prime: prime
+    };
+
+    try {
+        console.log("Crée le programmeur :", newProgrammeur);
+
+
+        const response = await fetch('http://localhost:8000/api/employees/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newProgrammeur) // conversion en JSON
+        });
+
+        // Parse the response
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Programmeur créé avec succès!");
+            // rafraichit la liste des employés
+            location.reload();
+        } else {
+            alert("Erreur: " + result.message);
+        }
+
+    } catch (error) {
+        alert("Erreur lors de la création du programmeur");
+    }
 }

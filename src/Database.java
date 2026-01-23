@@ -168,12 +168,12 @@ public class Database {
      * @throws SQLException
      */
     private static boolean tableExiste(Connection conn, String nomTable) throws SQLException {
-    String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name=?";
-    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, nomTable);
-        ResultSet rs = ps.executeQuery();
-        return rs.next(); // true si la table existe
+        String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name=?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, nomTable);
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // true si la table existe
+        }
     }
-}
 
 }

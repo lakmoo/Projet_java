@@ -17,6 +17,15 @@ public class Projet {
     private String dateFinPrevue;
     private String etat;
 
+    /**
+     * Constructeur avec paramètres.
+     * 
+     * @param id                    L'identifiant du projet
+     * @param intitule              L'intitulé du projet
+     * @param dateDebut             La date de début du projet
+     * @param dateFinPrevue         La date de fin prévue du projet
+     * @param etat                  L'état du projet
+     */
     public Projet(int id, String intitule, String dateDebut, String dateFinPrevue, String etat) {
         this.id = id;
         this.intitule = intitule;
@@ -25,6 +34,7 @@ public class Projet {
         this.etat = etat;
     }
 
+    // Getters et Setters
     public int getId() {
         return id;
     }
@@ -45,6 +55,9 @@ public class Projet {
         return etat;
     }
 
+    /**
+     * Redéfinition de la méthode toString pour afficher les informations du projet.
+     */
     public String toTexteAffichage() {
         return "Id: " + id
                 + " | Intitulé: " + intitule

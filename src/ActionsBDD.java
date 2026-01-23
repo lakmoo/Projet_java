@@ -9,6 +9,7 @@ package src;
  * @version Janvier 2026
  */
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -103,4 +104,21 @@ public interface ActionsBDD {
      * @throws SQLException             Si la liste n'a pas pu être récupéré
      */
     public List<Programmeur> getProgrammeurs();
+
+    /**
+     * Supprime un programmeur en fonction de son ID
+     * 
+     * @param id L'ID du programmeur
+     * @return un bouléen,
+     */
+    public boolean deleteProgrammeur(int id);
+
+    /**
+     * Enregistre la liste des programmeurs dans un fichier texte appelé
+     * "programmeurs.txt".
+     * 
+     * @throws SQLException             S'il n'arrive pas à lire la table des programmeurs
+     * @throws IOException              S'il y a une erreur lors de l'écriture dans le fichier
+     */
+    public void ProgToFile ();
 }

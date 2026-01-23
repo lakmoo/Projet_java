@@ -1,6 +1,6 @@
 PROJET JAVA 
 
-=== Description ===
+### Description ###
 
 Ce projet en Java permet de gérer une base de données de programmeurs et de projets à
 l aide de SQLite.
@@ -11,23 +11,23 @@ Technologies utilisées :
 - SQLite
 - JDBC (sqlite-jdbc)
 
-=== GIT ===
+### GIT ###
 
 Lien du dépôt GitHub : https://github.com/lakmoo/Projet_java.git
 
-=== Démo vidéo ===
+### Démo vidéo ###
 
 Lien de la démo disponible sur Youtube : 
 
-=== Compilation et exécution du projet ===
+### Compilation et exécution du projet ###
 
-== Version console == 
+## Version console ##
 
 Il vous suffit de copier-coller les commandes suivantes dans votre terminal : 
     javac -cp "lib/sqlite-jdbc-3.51.1.0.jar" -d out/production/Projet src/*.java
     java --enable-native-access=ALL-UNNAMED -cp "out/production/Projet:lib/sqlite-jdbc-3.51.1.0.jar" src.Start
 
-== Version serveur HTTP ==
+## Version serveur HTTP ##
 
 Afin de lancer l interface, il faut executer les lignes suivantes. 
 javac -cp "lib/sqlite-jdbc-3.51.1.0.jar" -d out/production/Projet src/*.java
@@ -37,7 +37,7 @@ Malheureusement, il n est pas possible de lancer les deux versions en même temp
 console à cause de conflits. Vous pouvez executer la fonction `main` de SimpleHttpServer.java 
 puis ensuite executer la version console sur votre terminal. 
 
-=== A savoir === 
+### A savoir ### 
 
 - Le code source est organisé en plusieurs classes pour la gestion de la base de données, 
   les opérations, le menu interactif et le serveur HTTP.
@@ -51,7 +51,7 @@ puis ensuite executer la version console sur votre terminal.
 - Les exceptions SQL sont gérées pour éviter l arrêt du programme en cas d erreurs.
 - Le nombre de tentatives est limité dans certaines actions. 
 
-=== Arborescence du projet ===
+### Arborescence du projet ###
 
 .
 ├── README
@@ -96,7 +96,7 @@ puis ensuite executer la version console sur votre terminal.
         └── script.js
 └── programmeurs.db                          // Base de données SQLite
 
-=== Structure de la base de données ===
+### Structure de la base de données ###
 
 La base de données SQLite contient deux tables principales :
 1. Programmeurs :
@@ -121,9 +121,9 @@ La base de données SQLite contient deux tables principales :
 
 -> Un programmeur peut être associé à un projet via la clé étrangère `id_projet`.
 
-=== Fonctionnalités ===
+### Fonctionnalités ###
 
-== Princiaples ==
+## Princiaples ##
 
     * Menu Principal *
     1.  Afficher tous les programmeurs
@@ -135,7 +135,7 @@ La base de données SQLite contient deux tables principales :
     9.  Programmeurs du même projet
     13. Quitter le programme
 
-== Additionnelles ==
+## Additionnelles 
 
     3.  Enregistrer les programmeurs dans un fichier
     7.  Modifier la prime
@@ -143,7 +143,7 @@ La base de données SQLite contient deux tables principales :
     11. Supprimer un projet
     12. Enregistrer l historique des actions dans un fichier
 
-=== Pistes d amélioration ===
+### Pistes d amélioration 
 
     * Ajouter une interface graphique (JavaFX ou Swing) pour une meilleure expérience utilisateur.
     * Implémenter des fonctionnalités plus avancées.

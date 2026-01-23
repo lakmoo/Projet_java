@@ -26,7 +26,7 @@ public class Programmeur {
     private int anneeNaissance;
     private double salaire;
     private double prime;
-    private String nomProjet;
+    private int idProjet;
 
     public Programmeur() {
         this.id = 0;
@@ -39,12 +39,12 @@ public class Programmeur {
         this.anneeNaissance = 0;
         this.salaire = 0.0;
         this.prime = 0.0;
-        this.nomProjet = "";
+        this.idProjet = 0;
     }
 
     public Programmeur(int id, String nom, String prenom, String adresse, String pseudo,
                        String responsable, String hobby, int anneeNaissance,
-                       double salaire, double prime, String nomProjet) {
+                       double salaire, double prime, int idProjet) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -55,7 +55,7 @@ public class Programmeur {
         this.anneeNaissance = anneeNaissance;
         this.salaire = salaire;
         this.prime = prime;
-        this.nomProjet = nomProjet;
+        this.idProjet = idProjet;
     }
 
     public int getId() {
@@ -78,12 +78,12 @@ public class Programmeur {
         this.salaire = salaire;
     }
 
-    public String getNomProjet() {
-        return nomProjet;
+    public int getIdProjet() {
+        return idProjet;
     }
 
-    public void setNomProjet(String nomProjet) {
-        this.nomProjet = nomProjet;
+    public void setIdProjet(int idProjet) {
+        this.idProjet = idProjet;
     }
 
     @Override

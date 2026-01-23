@@ -456,10 +456,10 @@ public class ActionsBDDImpl implements ActionsBDD {
                 int anNaissance = rs.getInt("anNaissance");
                 double salaire = rs.getDouble("salaire");
                 double prime = rs.getDouble("prime");
-                String nomProjet = rs.getString("nomProjet");
+                int idProjet = rs.getInt("id_projet");
 
                 Programmeur newProgrammeur = new Programmeur(id, nom, prenom, adresse, pseudo, responsable, hobby,
-                        anNaissance, salaire, prime, nomProjet);
+                        anNaissance, salaire, prime, idProjet);
                 listeProgrammeurs.add(newProgrammeur);
             }
 

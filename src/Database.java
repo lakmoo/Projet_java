@@ -37,15 +37,15 @@ public class Database {
         String sqlProg = """
                 CREATE TABLE IF NOT EXISTS Programmeurs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nom TEXT,
-                prenom TEXT,
-                adresse TEXT,
-                pseudo TEXT,
-                responsable TEXT,
-                hobby TEXT,
-                anNaissance INTEGER,
-                salaire REAL,
-                prime REAL,
+                nom TEXT NOT NULL,
+                prenom TEXT NOT NULL,
+                adresse TEXT NOT NULL,
+                pseudo TEXT NOT NULL UNIQUE,
+                responsable TEXT NOT NULL,
+                hobby TEXT NOT NULL,
+                anNaissance INTEGER NOT NULL,
+                salaire REAL NOT NULL,
+                prime REAL NOT NULL,
                 id_projet INTEGER,
                 FOREIGN KEY (id_projet) REFERENCES Projet(id)
                     ON DELETE SET NULL
@@ -56,10 +56,10 @@ public class Database {
         String sqlProjet = """
                 CREATE TABLE IF NOT EXISTS Projet (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                intitule TEXT,
-                dateDebut TEXT,
-                dateFinPrevue TEXT,
-                etat TEXT
+                intitule TEXT NOT NULL,
+                dateDebut TEXT NOT NULL,
+                dateFinPrevue TEXT NOT NULL,
+                etat TEXT NOT NULL
                 );
                 """;
         

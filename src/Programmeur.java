@@ -122,13 +122,20 @@ public class Programmeur {
 
         // ajoute chaque Programmeur dans la chaîne de caractères(json)
         for (int i = 0; i < listeProgrammeurs.size(); i++) {
-            Programmeur emp = listeProgrammeurs.get(i);
+            Programmeur programmeur = listeProgrammeurs.get(i);
 
             json.append("{");
-            json.append("\"id\":").append(emp.getId()).append(",");
-            json.append("\"nom\":\"").append(escapeJSON(emp.getNom())).append("\",");
-            json.append("\"prenom\":\"").append(escapeJSON(emp.getPrenom())).append("\",");
-            json.append("\"salaire\":").append(String.format(Locale.US, "%.2f", emp.getSalaire()));
+            json.append("\"id\":").append(programmeur.id).append(",");
+            json.append("\"nom\":\"").append(escapeJSON(programmeur.nom)).append("\",");
+            json.append("\"prenom\":\"").append(escapeJSON(programmeur.prenom)).append("\",");
+            json.append("\"adresse\":").append(escapeJSON(programmeur.adresse)).append(("\","));
+            json.append("\"pseudo\":").append(escapeJSON(programmeur.pseudo)).append(("\","));
+            json.append("\"responsable\":").append(escapeJSON(programmeur.responsable)).append(("\","));
+            json.append("\"hobby\":").append(escapeJSON(programmeur.hobby)).append(("\","));
+            json.append("\"anneeNaissance\":").append(escapeJSON(String.format("%d", programmeur.anneeNaissance)))
+                    .append(("\","));
+            json.append("\"salaire\":").append(String.format(Locale.US, "%.2f", programmeur.salaire));
+            json.append("\"prime\":").append(String.format(Locale.US, "%.2f", programmeur.prime));
             json.append("}");
 
             if (i < listeProgrammeurs.size() - 1) {

@@ -27,12 +27,12 @@ async function loadProgrammeurs() {
 }
 
 
-function displayProgrammeurs(programmers) {
+function displayProgrammeurs(programmeurs) {
     // where the programmers are going to be displayed
     const container = document.getElementById('programmeurContainer');
 
     // loop through each employee and create a div
-    programmers.forEach(programmer => {
+    programmeurs.forEach(programmeur => {
         // creating a div + adding a class for styling
         const programmerDiv = document.createElement('div');
         programmerDiv.className = 'widget';
@@ -40,8 +40,9 @@ function displayProgrammeurs(programmers) {
         // display the data retrieved from the database
         programmerDiv.innerHTML = `
             <img src="default-pfp.jpg"/>
-            <h3>${programmer.prenom} ${programmer.nom} <span>#${programmer.id}</span></h3>
-            <p>Salaire : ${programmer.salaire.toLocaleString()}€/mois</p>
+            <h3>${programmeur.prenom} ${programmeur.nom} <span>#${programmeur.id}</span></h3>
+            <p>Adresse : ${programmeur.adresse}</p>
+            <p>Salaire : ${programmeur.salaire.toLocaleString()}€/mois</p>
             <button type="button">Supprimer</button>
         `;
 

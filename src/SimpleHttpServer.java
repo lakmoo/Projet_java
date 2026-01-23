@@ -107,27 +107,32 @@ public class SimpleHttpServer {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             if ("GET".equals(exchange.getRequestMethod())) {
-                // Get employees from database
+                // recupère les programmeurs de la base de données
                 ActionsBDDImpl test = new ActionsBDDImpl();
                 List<Programmeur> listeProgrammeurs = test.getProgrammeurs();
 
-                // Save to JSON file
+                // enregistre les informations dans un fichier JSON
                 Programmeur.creerFichierJSON(listeProgrammeurs, "programmeurs.json");
 
-                // Read the JSON file
+                // lis le fichier JSON
                 byte[] jsonBytes = Files.readAllBytes(Paths.get("programmeurs.json"));
 
+                // test
                 System.out.println("Sending employee data from JSON file");
 
-                // Set headers
+                // send response to the server
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
                 exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
 
-                // Send response
+                // send response to the server
                 exchange.sendResponseHeaders(200, jsonBytes.length);
                 OutputStream os = exchange.getResponseBody();
                 os.write(jsonBytes);
                 os.close();
+            }
+
+            else if ("DELETE".equals(exchange.getRequestMethod())) {
+                ActionsBDDImpl test = new ActionsBDDImpl();
             }
         }
     }

@@ -11,14 +11,21 @@
 </head>
 
 <body>
+    <dialog id="dialog-box">
+        <h3>Enter user information</h3>
+        <form>
+            <span onclick="document.getElementById('dialog-box').style.display='none'" class="close"
+                title="Close Modal">&times;</span>
+        </form>
+    </dialog>
     <nav id="navHeader">
         <a href="index.html">Employés</a>
         <a href="projets.html">Projets</a>
     </nav>
     <section>
         <nav id="navSearch">
-            <input type="" placeholder="Rechercher un employé" />
-            <button>Ajouter un employé</button>
+            <input type="text" placeholder="Rechercher un employé" id="searchBar" onkeyup="searchProgrammeur()" />
+            <button type="button" onclick="addProgrammeur()">Ajouter un employé</button>
         </nav>
 
         <div id="programmeurContainer"></div>

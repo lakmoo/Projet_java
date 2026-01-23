@@ -128,6 +128,58 @@ public class SimpleHttpServer {
                 OutputStream os = exchange.getResponseBody();
                 os.write(jsonBytes);
                 os.close();
+            } else if ("DELETE".equals(exchange.getRequestMethod())) {
+
+                String path = exchange.getRequestURI().getPath();
+                String[] pathParts = path.split("/");
+
+                if (pathParts.length >= 4) {
+                    try {
+                        int programmeurId = Integer.parseInt(pathParts[pathParts.length - 1]);
+
+                        System.out.println("Attempting to delete employee with ID: " + programmeurId);
+
+                        // Delete from database
+                        ActionsBDDImpl test = new ActionsBDDImpl();
+                        boolean success = test.deleteProgrammeur(programmeurId);
+
+                        // Prepare response
+                        String jsonResponse;
+                        int statusCode;
+
+                        if (success) {
+                            jsonResponse = "{\"success\":true,\"message\":\"Employee deleted successfully\"}";
+                            statusCode = 200;
+                        } else {
+                            jsonResponse = "{\"success\":false,\"message\":\"Employee not found\"}";
+                            statusCode = 404;
+                        }
+
+                        // Send response
+                        exchange.getResponseHeaders().set("Content-Type", "application/json");
+                        exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+                        exchange.sendResponseHeaders(statusCode, jsonResponse.getBytes().length);
+
+                        OutputStream os = exchange.getResponseBody();
+                        os.write(jsonResponse.getBytes());
+                        os.close();
+
+                    } catch (NumberFormatException e) {
+                        // Invalid ID format
+                        String errorResponse = "{\"success\":false,\"message\":\"Invalid employee ID\"}";
+                        exchange.sendResponseHeaders(400, errorResponse.getBytes().length);
+                        OutputStream os = exchange.getResponseBody();
+                        os.write(errorResponse.getBytes());
+                        os.close();
+                    }
+                } else {
+                    // Missing ID in URL
+                    String errorResponse = "{\"success\":false,\"message\":\"Employee ID required\"}";
+                    exchange.sendResponseHeaders(400, errorResponse.getBytes().length);
+                    OutputStream os = exchange.getResponseBody();
+                    os.write(errorResponse.getBytes());
+                    os.close();
+                }
             }
         }
     }
